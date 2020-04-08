@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo de Grafos</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-util@1.1.8/dist/umd.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-data@6.2.1/dist/umd.js"></script>
+    <script type="text/javascript" src="https://visjs.github.io/vis-network/peer/umd/vis-network.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://visjs.github.io/vis-network/styles/vis-network.min.css" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+
+<style type="text/css">
+html,
+body,
+#mynetwork {
+  margin: 0px;
+  padding: 0px;
+}
+
+#mynetwork {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 50%;
+  min-height: 100vh;
+  border-right: 1px solid lightgray;
+  background: white;
+}
+
+#text {
+  position: absolute;
+  left: 50%;
+  padding: 1em;
+}
+
+#title {
+  margin-bottom: 5em;
+}
+
+</style>
+<body>
+<div id="text">
+  <div id="title">
+    <nav class="navbar navbar-expand-md navbar-dark bg-gray-950 fixed-top">
+    <a class="navbar-brand" href="#">UMG</a>
+    <a class="navbar-toggler collapsed border-0" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </a>
+
+    <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
+      <ul class="navbar-nav mr-auto form-inline">
+      </ul>
+      <ul class="navbar-nav form-inline my-2 my-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="btnDesarrolladores">Desarrolladores</a>
+        </li>
+      </ul> 
+    </div>
+  </nav>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+      <div class="modal-content bg-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFormTitle">Analizador Léxico</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="text-light">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="">Analizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main role="main" class="container-fluid text-center">
+    <div class="row h-100" id="inicio">
+      <div class="col-md-12 mx-auto my-auto">
+        <h1><kbd class="text-info">Gramática</kbd> <kbd class="text-success">Regular</kbd></h1>
+          
+          <form name="thisform">
+            <div class="form-row">
+              <div class="col-12">
+                <label for="txtCadena">Oración</label>
+                <input type="text" class="form-control" id="txtCadena" aria-describedby="emailHelp" placeholder="Ingresar Oración">
+                <small id="emailHelp" class="form-text text-muted">Por favor ingrese la oración a analizar y luego presione el botón <b>Analizar</b></small>
+              </div>
+            </div>
+          </form>
+
+        <button type="button" class="btn btn-primary" id="btnAnalizar">Analizar</button>
+        <button type="button" class="btn btn-success" id="btnGrafica">Grafica</button>
+      </div>
+    </div>
+  </main>
+  </div>
+</div>
+
+<div id="mynetwork"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+
+$(document).on('shown.bs.modal', function(e) {
+  $('input:visible:enabled:first', e.target).focus();
+});
+</script>
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script type="text/javascript">
+$('#txtCadena').val('el joven estudia feliz');
+
+function noAceptado() {
+  Swal.fire({
+    type: 'error',
+    title: 'Oops...',
+    html: 'Esta cadena no es Aceptada'
+  })
+}
+
+function aceptado() {
+  Swal.fire({
+    type: 'success',
+    title: 'Aceptada',
+    html: 'Esta cadena si es Aceptada'
+  })
+}
+
+const jsonPalabrasReservadas = {
+  "oracion": [
+    {
+      "sujeto": [
+        {
+          "determinante": [
+            "el"
+          ],
+          "nombre": [
+            "anciano",
+            "joven",
+            "perro",
+            "gato"
+          ]
+        }
+      ],
+      "predicado": [
+        {
+          "verbo": [
+            "duerme",
+            "corre",
+            "canta",
+            "ladra",
+            "estudia",
+            "lee",
+            "escribe"
+          ],
+          "complemento": [
+            "tranquilo",
+            "molesto",
+            "enojado",
+            "feliz",
+            "contento"
+          ]
+        }
+      ],
+    },
+  ]
+};
+
+var ddd;
+var nnn;
+var vvv;
+var ccc;
+$('#btnAnalizar').click(function () {
+  const cadena = $('#txtCadena').val();
+  const divisiones = cadena.split(" ");
+
+  var det, N, ver, C;
+
+  jsonPalabrasReservadas.oracion.forEach(function(i) {
+    i.sujeto.forEach(function(j) {
+      j.determinante.forEach(function(k) {
+        if (!det) {
+          det = (k==divisiones[0]) ? true : false;
+          ddd=k;
+        }
+      });
+      j.nombre.forEach(function(k) {
+        if (!N) {
+          N = (k==divisiones[1]) ? true : false;
+          nnn=k;
+        }
+      });
+    });
+    i.predicado.forEach(function(j) {
+      j.verbo.forEach(function(k) {
+        if (!ver) {
+          ver = (k==divisiones[2]) ? true : false;
+          vvv=k;
+        }
+      });
+      j.complemento.forEach(function(k) {
+        if (!C) {
+          C = (k==divisiones[3]) ? true : false;
+          ccc=k;
+        }
+      });
+    });
+  });
+
+  if (det && N && ver && C) {
+    aceptado();
+  } else {
+    noAceptado();
+  }
+  /*const cadena = $('#txtCadena').val();
+  var q = 0;
+  for (var i = 0; i < cadena.length; i++) {
+    if (q == 0) (cadena.charAt(i) == '0') ? q++ : q;
+    if (q == 1) (cadena.charAt(i) == '1') ? q++ : q;
+    if (q == 2) q;
+  }
+  (q == 2) ? aceptado() : noAceptado();*/
+});
+
+$('#btnGrafica').click(function () {
+  var nodes = new vis.DataSet([
+    { id: 1, label: "oracion" },
+    { id: 21, label: "sujeto" },
+    { id: 211, label: "determinante" },
+    { id: 2111, label: ddd },
+    { id: 212, label: "nombre" },
+    { id: 2121, label: nnn },
+    { id: 22, label: "predicado" },
+    { id: 221, label: "verbo" },
+    { id: 2211, label: vvv },
+    { id: 222, label: "complemento" },
+    { id: 2221, label: ccc }
+  ]);
+
+
+  // create an array with edges
+  var edges = new vis.DataSet([
+    { from: 1, to: 21 },
+    { from: 21, to: 211 },
+    { from: 211, to: 2111 },
+    { from: 21, to: 212 },
+    { from: 212, to: 2121 },
+    { from: 22, to: 221 },
+    { from: 221, to: 2211 },
+    { from: 22, to: 222 },
+    { from: 222, to: 2221 },
+    { from: 1, to: 22 }
+  ]);
+// create a network
+var container = document.getElementById("mynetwork");
+var data = {
+  nodes: nodes,
+  edges: edges
+};
+var options = {};
+var network = new vis.Network(container, data, options);
+});
+  // create an array with nodes
+/*var nodes = new vis.DataSet([
+  { id: 1, label: "Oracion" },
+  { id: 2, label: "Node 2" },
+  { id: 3, label: "Node 3" },
+  { id: 4, label: "Node 4" },
+  { id: 5, label: "Node 5" }
+]);
+
+// create an array with edges
+var edges = new vis.DataSet([
+  { from: 1, to: 3 },
+  { from: 1, to: 2 },
+  { from: 2, to: 4 },
+  { from: 2, to: 2 },
+  { from: 3, to: 3 }
+]);*/
+
+
+    </script>
+</body>
+</html>

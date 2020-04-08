@@ -1,0 +1,256 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Starter Template · Bootstrap</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
+  <script type="text/javascript" src="https://unpkg.com/vis-util@1.1.8/dist/umd.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/vis-data@6.2.1/dist/umd.js"></script>
+  <script type="text/javascript" src="https://visjs.github.io/vis-network/peer/umd/vis-network.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://visjs.github.io/vis-network/styles/vis-network.min.css" />
+    
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+  </head>
+  <body class="bg-gray-900 text-light">
+    <nav class="navbar navbar-expand-md navbar-dark bg-gray-950 fixed-top">
+	  <a class="navbar-brand" href="#">UMG</a>
+    <a class="navbar-toggler collapsed border-0" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </a>
+
+	  <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
+	    <ul class="navbar-nav mr-auto form-inline">
+	    </ul>
+	    <ul class="navbar-nav form-inline my-2 my-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="btnDesarrolladores">Desarrolladores</a>
+        </li>
+	    </ul>
+	  </div>
+	</nav>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+      <div class="modal-content bg-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFormTitle">Analizador Léxico</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="text-light">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="">Analizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<main role="main" class="container-fluid text-center">
+	  <div class="row h-100" id="inicio" style="background-image: url(img/bg.jpg?ver=1); background-size: cover;">
+	    <div class="col-md-5 mx-auto my-auto">
+        <h1><kbd class="text-info">Gramática</kbd> <kbd class="text-success">Regular</kbd></h1>
+  	      
+          <form name="thisform">
+            <div class="form-row">
+              <div class="col-12">
+                <label for="txtCadena">Oración</label>
+                <input type="text" class="form-control" id="txtCadena" aria-describedby="emailHelp" placeholder="Ingresar Oración">
+                <small id="emailHelp" class="form-text text-muted">Por favor ingrese la oración a analizar y luego presione el botón <b>Analizar</b></small>
+              </div>
+            </div>
+          </form>
+
+        <button type="button" class="btn btn-primary" id="btnAnalizar">Analizar</button>
+	    </div>
+	  </div>
+    <footer id="desarrolladores">
+      <div class="row h-100 ml-4 mr-4 justify-content-md-center">
+        <div class="col-md-2 align-self-end mb-5 my-md-auto">
+          <i class="fas fa-file-code fa-5x"></i>
+        </div>
+        <div class="col-md-4 text-left my-md-auto">
+          <p>
+            <span class="font-weight-bold text-blue">Carlos Daniel Marcucci Rivera</span><br>
+            <span class="">1490-17-18027</span><br>
+            <i class="fas fa-address-card"></i>
+          </p>
+          <p>
+            <span class="font-weight-bold text-blue">Junior Samuel Chaj Jerez</span><br>
+            <span class="">1490-17-10647</span><br>
+            <i class="fas fa-address-card"></i>
+          </p>
+          <p>
+            <span class="font-weight-bold text-blue">Gerardo Rodolfo Julajuj Yach</span><br>
+            <span class="">1490-17-20028</span><br>
+            <i class="fas fa-address-card"></i>
+          </p>
+        </div>
+      </div>
+    </footer>
+	</main>
+
+<div id="mynetwork" style="
+  min-height: 100vh;"></div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).on('shown.bs.modal', function(e) {
+  $('input:visible:enabled:first', e.target).focus();
+});
+</script>
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script type="text/javascript">
+$('#txtCadena').val('el joven estudia feliz');
+
+function noAceptado() {
+  Swal.fire({
+    type: 'error',
+    title: 'Oops...',
+    html: 'Esta cadena no es Aceptada'
+  })
+}
+
+function aceptado() {
+  Swal.fire({
+    type: 'success',
+    title: 'Aceptada',
+    html: 'Esta cadena si es Aceptada'
+  })
+}
+
+const jsonPalabrasReservadas = {
+  "oracion": [
+    {
+      "sujeto": [
+        {
+          "determinante": [
+            "el"
+          ],
+          "nombre": [
+            "anciano",
+            "joven",
+            "perro",
+            "gato"
+          ]
+        }
+      ],
+      "predicado": [
+        {
+          "verbo": [
+            "duerme",
+            "corre",
+            "canta",
+            "ladra",
+            "estudia",
+            "lee",
+            "escribe"
+          ],
+          "complemento": [
+            "tranquilo",
+            "molesto",
+            "enojado",
+            "feliz",
+            "contento"
+          ]
+        }
+      ],
+    },
+  ]
+};
+
+$('#btnAnalizar').click(function () {
+  const cadena = $('#txtCadena').val();
+  const divisiones = cadena.split(" ");
+
+  var det, N, ver, C;
+
+  jsonPalabrasReservadas.oracion.forEach(function(i) {
+    i.sujeto.forEach(function(j) {
+      j.determinante.forEach(function(k) {
+        if (!det) {
+          det = (k==divisiones[0]) ? true : false;
+        }
+      });
+      j.nombre.forEach(function(k) {
+        if (!N) {
+          N = (k==divisiones[1]) ? true : false;
+        }
+      });
+    });
+    i.predicado.forEach(function(j) {
+      j.verbo.forEach(function(k) {
+        if (!ver) {
+          ver = (k==divisiones[2]) ? true : false;
+        }
+      });
+      j.complemento.forEach(function(k) {
+        if (!C) {
+          C = (k==divisiones[3]) ? true : false;
+        }
+      });
+    });
+  });
+
+  if (det && N && ver && C) {
+    aceptado();
+  } else {
+    noAceptado();
+  }
+  /*const cadena = $('#txtCadena').val();
+  var q = 0;
+  for (var i = 0; i < cadena.length; i++) {
+    if (q == 0) (cadena.charAt(i) == '0') ? q++ : q;
+    if (q == 1) (cadena.charAt(i) == '1') ? q++ : q;
+    if (q == 2) q;
+  }
+  (q == 2) ? aceptado() : noAceptado();*/
+});
+
+var nodes = new vis.DataSet([
+  { id: 1, label: "oracion" },
+  { id: 21, label: "sujeto" },
+  { id: 211, label: "determinante" },
+  { id: 212, label: "nombre" },
+  { id: 22, label: "predicado" },
+  { id: 221, label: "verbo" },
+  { id: 222, label: "complemento" }
+]);
+
+
+// create an array with edges
+var edges = new vis.DataSet([
+  { from: 1, to: 21 },
+  { from: 21, to: 211 },
+  { from: 21, to: 212 },
+  { from: 22, to: 221 },
+  { from: 22, to: 222 },
+  { from: 1, to: 22 }
+]);
+
+$('#btnDesarrolladores').click(function (){
+  $('html,body').animate({scrollTop: $("#desarrolladores").offset().top}, 'slow');
+});
+
+</script>
+</html>
